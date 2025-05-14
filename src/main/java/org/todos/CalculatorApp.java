@@ -2,12 +2,6 @@ package org.todos;
 import java.awt.*;
 import javax.swing.*;
 
-//TODO: Fix double math (DONE)
-//TODO: Fix make text field bigger (DONE)
-//TODO: Add delete button for single character deletions (DONE)
-//TODO: Add functionality to the percentage key
-//TODO: Add keyboard functionality
-
 public class CalculatorApp {
 
     public static void main(String[] args) {

@@ -1,5 +1,4 @@
 # Simple calculator app
---
 
 #### A small calculator app that handles:
 - Addition

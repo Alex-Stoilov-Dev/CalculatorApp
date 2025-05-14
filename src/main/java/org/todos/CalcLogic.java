@@ -2,8 +2,6 @@ package org.todos;
 
 import java.util.*;
 
-//TODO: Fix bugs with division not being handled properly
-//TODO: Fix function so it is not static
 
 public class CalcLogic {
 
@@ -12,7 +10,12 @@ public class CalcLogic {
         List<Double> numbers = new ArrayList<>();
         List<Character> operators = new ArrayList<>();
 
+        //Expression parser, takes in the expression as a string
+        // and a list of numbers and operators
         parseExpression(expression, numbers, operators);
+
+        //Handle Exponentiation Before Multiplication and Division
+        processExponentiationAndRoots(numbers,operators);
 
         // Handle multiplication and division first
         processMultiplicationAndDivision(numbers, operators);
@@ -24,9 +27,9 @@ public class CalcLogic {
             double number = numbers.get(i + 1);
 
             if (operator == '+') {
-                result = result + number;
+                result = Math.round( (result + number) * 100.0 ) / 100.0;
             } else if (operator == '-') {
-                result = result - number;
+                result = Math.round( (result - number) * 100.0 ) / 100.0;
             } else {
                 throw new IllegalStateException("Unexpected operator: " + operator);
             }
@@ -44,7 +47,7 @@ public class CalcLogic {
 
             if (Character.isDigit(c) || c == '.') {
                 numberBuffer += c;
-            } else if (c == '+' || c == '-' || c == '*' || c == '/') {
+            } else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') {
                 if (!numberBuffer.isEmpty()) {
                     numbers.add(Double.parseDouble(numberBuffer));
                     numberBuffer = "";
@@ -66,7 +69,7 @@ public class CalcLogic {
             if (operator == '*' || operator == '/') {
                 double num1 = numbers.get(i);
                 double num2 = numbers.get(i + 1);
-                double result = 0;
+                double result;
 
                 if (operator == '*') {
                     result = num1 * num2;
@@ -81,6 +84,26 @@ public class CalcLogic {
                 operators.remove(i);
                 i--;  // Adjust the index due to list modification
             }
+        }
+    }
+    private static void processExponentiationAndRoots(List<Double> numbers, List<Character> operators) {
+        for (int i = 0; i < operators.size(); i++) {
+            double num1 = numbers.get(i);
+            double num2 = numbers.get(i + 1);
+            double result;
+
+            if (operators.get(i) == '^') {
+                result = Math.pow(num1, num2);
+            } else if (num1 == 0 && num2 == 0) {
+                throw new IllegalStateException("ERROR: USING UNDEFINED MATH 0^0 is not a valid operation!");
+            }
+            else{
+                return;
+            }
+            numbers.set(i, result);
+            numbers.remove(i + 1);
+            operators.remove(i);
+            i--;  // Adjust the index due to list modification
         }
     }
 }

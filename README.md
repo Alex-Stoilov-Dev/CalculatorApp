@@ -7,4 +7,4 @@
 -  Division
 -  Exponentiation
 
-The calculator works both in CLI and as a Desktop App, built with swing.
+The calculator works both in CLI and as a Desktop App, built with Swing.
